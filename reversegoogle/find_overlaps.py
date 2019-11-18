@@ -96,9 +96,10 @@ def main():
     overlapping_octants.update_bulk_data(bulk)
 
     for level in range(1, 21):
+        print("")
         print(f"[Octant level {level}]")
         for octant in overlapping_octants[level]:
-            print(octant.path)
+            print(octant.path, end=' ')
 
         if len(overlapping_octants[level]) >= MAX_COUNT:
             break

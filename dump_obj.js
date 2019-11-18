@@ -3,6 +3,8 @@
 const fs = require('fs-extra');
 const path = require('path');
 const decodeTexture = require('./lib/decode-texture');
+const crypto = require('crypto');
+
 
 /**************************** config ****************************/
 const PLANET = 'earth';
@@ -17,6 +19,14 @@ const { getPlanetoid, getBulk, getNode, bulk: { getIndexByPath, hasBulkMetadataA
 	URL_PREFIX, DUMP_JSON_DIR, DUMP_RAW_DIR, DUMP_JSON, DUMP_RAW
 });
 
+function getDirectory(OCTANTS, octant_str)
+{
+	
+	let hash = crypto.createHash('md5').update(octant_str).digest("hex");
+	hash = OCTANTS[0] + "_" +  hash;
+	return hash;
+}
+
 /***************************** main *****************************/
 async function run() {
 
@@ -25,7 +35,9 @@ async function run() {
 
 	let objCtx;
 	if (DUMP_OBJ) {
-		const objDir = path.join(DUMP_OBJ_DIR, `${OCTANTS.join('+')}-${MAX_LEVEL}-${rootEpoch}`);
+		// const objDir = path.join(DUMP_OBJ_DIR, `${OCTANTS.join('+')}-${MAX_LEVEL}-${rootEpoch}`);
+		const objSubdir = getDirectory(OCTANTS, `${OCTANTS.join('+')}-${MAX_LEVEL}-${rootEpoch}`);
+		const objDir = path.join(DUMP_OBJ_DIR, objSubdir)
 		fs.removeSync(objDir);
 		fs.ensureDirSync(objDir);
 		objCtx = initCtxOBJ(objDir);

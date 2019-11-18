@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-REQUIRED = ['protobuf',  'numpy', 'tqdm']
+REQUIRED = ['protobuf',  'numpy', 'tqdm', 'trimesh', 'Pillow', 'networkx']
 setup(
     name='reversegoogle',
     version='0.1.0',
